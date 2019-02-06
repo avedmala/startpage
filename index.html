@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>zoo wee mama</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css">
+</head>
+<body>
+    <div id="search">
+        <input id="search-field" type="text" name="search-field" onkeypress="return search(event)"/>
+    </div>
+    <div class="container">
+        <div id="clock"></div>
+          <div class="weather-container">
+            <a href="https://darksky.net/forecast/40.3849,-74.5205/us12/en" target="_blank">
+              <div class="row">
+                  <div id="weather-description"class="inline"></div>
+                  <div class="inline">-</div>
+                  <div id="temp" class="inline"></div>
+              </div>
+            </a>
+        </div>
+        <div class="bookmark-container">
+            <div class="bookmark-set">
+                <div class="bookmark-title">Daily</div>
+                <div class="bookmark-inner-container">
+                    <a class="bookmark" href="https://gmail.com/" target="_blank">Gmail</a>
+                    <a class="bookmark" href="https://old.reddit.com/" target="_blank">Reddit</a>
+                    <a class="bookmark" href="https://runfastcoach.com/calc2/" target="_blank">RunFastCoach</a>
+                    <a class="bookmark" href="http://vedmala.xyz:61208/" target="_blank">Glances</a>
+                </div>
+            </div>
+            <div class="bookmark-set">
+                <div class="bookmark-title">Media</div>
+                <div class="bookmark-inner-container">
+                    <a class="bookmark" href="https://youtube.com" target="_blank">Youtube</a>
+                    <a class="bookmark" href="https://netflix.com" target="_blank">Netflix</a>
+                    <a class="bookmark" href="http://vedmala.xyz:8096" target="_blank">Emby</a>
+                </div>
+            </div>
+            <div class="bookmark-set">
+            <div class="bookmark-title">School</div>
+                <div class="bookmark-inner-container">
+                    <a class="bookmark" href="https://classroom.google.com/h" target="_blank">Classroom</a>
+                    <a class="bookmark" href="https://drive.google.com/drive/my-drive" target="_blank">Drive</a>
+                    <a class="bookmark" href="https://parents.sbschools.org/genesis/parents" target="_blank">Genesis</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Search on enter key event
+        function search(e) {
+            if (e.keyCode == 13) {
+                var val = document.getElementById("search-field").value;
+                window.open("https://duckduckgo.com/" + val);
+            }
+        }
+        // Get current time and format
+        function getTime() {
+            var date = new Date(),
+                min = date.getMinutes(),
+                sec = date.getSeconds(),
+                hour = date.getHours();
+
+            // 12 hour format
+            hour = date.getHours() % 12 || 12
+
+            return "" +
+                (hour < 10 ? ("0" + hour) : hour) + ":" +
+                (min < 10 ? ("0" + min) : min) + ":" +
+                (sec < 10 ? ("0" + sec) : sec);
+        }
+
+        function weatherToggle() {
+          if(document.getElementById("temp").innerHTML.slice(-1) == H)
+            document.getElementById("temp").innerHTML = Math.round(json.currently.temperature) + " F";
+          else
+            document.getElementById("temp").innerHTML = Math.round(json.currently.windSpeed) + " MPH";
+        }
+
+        window.onload = () => {
+            let xhr = new XMLHttpRequest();
+            // Request to weather api
+            xhr.open('GET', 'https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/a8ee06a53ce08e3ae1668ca25de41b09/40.379570,-74.545660?units=us&exclude=minutely,hourly,daily,flags');
+            xhr.onload = () => {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        let json = JSON.parse(xhr.responseText);
+                        console.log(json);
+                        document.getElementById("temp").innerHTML = Math.round(json.currently.temperature) + " F";
+                        document.getElementById("weather-description").innerHTML = json.currently.summary;
+                    } else {
+                        console.log('error msg: ' + xhr.status);
+                    }
+                }
+            }
+            xhr.send();
+            // Set up the clock
+            document.getElementById("clock").innerHTML = getTime();
+            // Set clock interval to tick clock
+            setInterval( () => {
+                document.getElementById("clock").innerHTML = getTime();
+            },100);
+        }
+
+        document.addEventListener("keydown", event => {
+            if (event.keyCode == 32) {          // Spacebar code to open search
+                document.getElementById('search').style.display = 'flex';
+                document.getElementById('search-field').focus();
+            } else if (event.keyCode == 27) {   // Esc to close search
+                document.getElementById('search-field').value = '';
+                document.getElementById('search-field').blur();
+                document.getElementById('search').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+<!--         window.onload = () => {
+            let xhr = new XMLHttpRequest();
+            // Request to open weather api
+            xhr.open('GET', 'http://api.openweathermap.org/data/2.5/weather?zip=08852&appid=904eaa61902dba144dc85f29013ec210&units=imperial');
+            xhr.onload = () => {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        let json = JSON.parse(xhr.responseText);
+                        console.log(json);
+                        document.getElementById("temp").innerHTML = Math.round(json.main.temp) + " F";
+                        document.getElementById("weather-description").innerHTML = json.weather[0].main;
+                    } else {
+                        console.log('error msg: ' + xhr.status);
+                    }
+                }
+            }
+            xhr.send();
+            // Set up the clock
+            document.getElementById("clock").innerHTML = getTime();
+            // Set clock interval to tick clock
+            setInterval( () => {
+                document.getElementById("clock").innerHTML = getTime();
+            },100);
+        } -->
