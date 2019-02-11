@@ -14,6 +14,7 @@
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" type="text/css" media="screen" href="style.css">
 </head>
+<script src="//instant.page/1.1.0" type="module" integrity="sha384-EwBObn5QAxP8f09iemwAJljc+sU+eUXeL9vSBw1eNmVarwhKk2F9vBEpaN9rsrtp"></script>
 <body>
     <div id="search">
         <input id="search-field" type="text" name="search-field" onkeypress="return search(event)"/>
@@ -21,7 +22,7 @@
     <div class="container">
         <div id="clock"></div>
           <div class="weather-container">
-            <a href="https://darksky.net/forecast/40.3849,-74.5205/us12/en" target="_blank">
+            <a href="https://darksky.net/forecast/40.3849,-74.5205/us12/en" target="">
               <div class="row">
                   <div id="weather-description"class="inline"></div>
                   <div class="inline">-</div>
@@ -33,29 +34,29 @@
             <div class="bookmark-set">
                 <div class="bookmark-title">Daily</div>
                 <div class="bookmark-inner-container">
-                    <a class="bookmark" href="https://gmail.com/" target="_blank">Gmail</a>
-                    <a class="bookmark" href="https://reddit.com/" target="_blank">Reddit</a>
-                    <a class="bookmark" href="https://www.ticktick.com/#q/all/tasks" target="_blank">TickTick</a>
-                    <a class="bookmark" href="https://runfastcoach.com/calc2/" target="_blank">RunFastCoach</a>
-                    <a class="bookmark" href="https://vedmala.xyz:61208/" target="_blank">Glances</a>
+                    <a class="bookmark" href="https://gmail.com/" target="">Gmail</a>
+                    <a class="bookmark" href="https://reddit.com/" target="">Reddit</a>
+                    <a class="bookmark" href="https://www.ticktick.com/#q/all/tasks" target="">TickTick</a>
+                    <a class="bookmark" href="https://runfastcoach.com/calc2/" target="">RunFastCoach</a>
+                    <a class="bookmark" href="http://vedmala.xyz:61208/" target="">Glances</a>
                 </div>
             </div>
             <div class="bookmark-set">
                 <div class="bookmark-title">Media</div>
                 <div class="bookmark-inner-container">
-                    <a class="bookmark" href="https://youtube.com" target="_blank">Youtube</a>
-                    <a class="bookmark" href="https://netflix.com" target="_blank">Netflix</a>
-                    <a class="bookmark" href="https://vedmala.xyz:8096" target="_blank">Emby</a>
-                    <a class="bookmark" href="https://nextcloud.vedmala.xyz" target="_blank">Nextcloud</a>
+                    <a class="bookmark" href="https://youtube.com" target="">Youtube</a>
+                    <a class="bookmark" href="https://netflix.com" target="">Netflix</a>
+                    <a class="bookmark" href="http://vedmala.xyz:8096" target="">Emby</a>
+                    <a class="bookmark" href="https://nextcloud.vedmala.xyz" target="">Nextcloud</a>
                 </div>
             </div>
             <div class="bookmark-set">
             <div class="bookmark-title">School</div>
                 <div class="bookmark-inner-container">
-                    <a class="bookmark" href="https://classroom.google.com/h" target="_blank">Classroom</a>
-                    <a class="bookmark" href="https://drive.google.com/drive/my-drive" target="_blank">Drive</a>
-                    <a class="bookmark" href="https://parents.sbschools.org/genesis/parents" target="_blank">Genesis</a>
-                    <a class="bookmark" href="https://www.khanacademy.org/" target="_blank">Khan Academy</a>
+                    <a class="bookmark" href="https://classroom.google.com/h" target="">Classroom</a>
+                    <a class="bookmark" href="https://drive.google.com/drive/my-drive" target="">Drive</a>
+                    <a class="bookmark" href="https://parents.sbschools.org/genesis/parents" target="">Genesis</a>
+                    <a class="bookmark" href="https://www.khanacademy.org/" target="">Khan Academy</a>
                 </div>
             </div>
         </div>
@@ -71,7 +72,10 @@
         }
         // Get current time and format
         function getTime() {
-            var date = new Date(),
+            var dt = new Date();
+            dt.setTime(dt.getTime()+dt.getTimezoneOffset()*60*1000);
+            var offset = -300;
+            var date = new Date(dt.getTime() + offset*60*1000),
                 min = date.getMinutes(),
                 sec = date.getSeconds(),
                 hour = date.getHours();
