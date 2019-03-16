@@ -80,11 +80,8 @@
                 sec = date.getSeconds(),
                 hour = date.getHours();
 
-            //daylight savings
-            hour++;
-
             // 12 hour format
-            hour = date.getHours() % 12 || 12
+            hour = (date.getHours()+1) % 12 || 12
 
             return "" +
                 (hour < 10 ? ("0" + hour) : hour) + ":" +
