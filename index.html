@@ -97,9 +97,9 @@
         }
 
         window.onload = () => {
-            let xhr = new XMLHttpRequest();
+            var xhr = new XMLHttpRequest();
             // Request to weather api
-            xhr.open('GET', 'https://bypasscors.herokuapp.com/api/?url=https://api.darksky.net/forecast/a8ee06a53ce08e3ae1668ca25de41b09/40.379570,-74.545660?units=us&exclude=minutely,hourly,daily,flags');
+            xhr.open("GET", "https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/a8ee06a53ce08e3ae1668ca25de41b09/40.379570,-74.545660?units=us&exclude=minutely,hourly,daily,flags", true);
             xhr.onload = () => {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
@@ -112,7 +112,7 @@
                     }
                 }
             }
-            xhr.send();
+            xhr.send(null);
             // Set up the clock
             document.getElementById("clock").innerHTML = getTime();
             // Set clock interval to tick clock
@@ -134,29 +134,3 @@
     </script>
 </body>
 </html>
-
-
-<!--         window.onload = () => {
-            let xhr = new XMLHttpRequest();
-            // Request to open weather api
-            xhr.open('GET', 'http://api.openweathermap.org/data/2.5/weather?zip=08852&appid=904eaa61902dba144dc85f29013ec210&units=imperial');
-            xhr.onload = () => {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-                        let json = JSON.parse(xhr.responseText);
-                        console.log(json);
-                        document.getElementById("temp").innerHTML = Math.round(json.main.temp) + " F";
-                        document.getElementById("weather-description").innerHTML = json.weather[0].main;
-                    } else {
-                        console.log('error msg: ' + xhr.status);
-                    }
-                }
-            }
-            xhr.send();
-            // Set up the clock
-            document.getElementById("clock").innerHTML = getTime();
-            // Set clock interval to tick clock
-            setInterval( () => {
-                document.getElementById("clock").innerHTML = getTime();
-            },100);
-        } -->
