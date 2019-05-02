@@ -5,8 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Startpage</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<link rel="icon" href="images/favicon.ico">
-    <link rel="manifest" href="/site.webmanifest">
+	<link rel="icon" href="favicon.png">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" type="text/css" media="screen" href="style.css">
@@ -19,7 +18,7 @@
     <div class="container">
         <div id="clock"></div>
           <div class="weather-container">
-            <a href="https://darksky.net/forecast/40.3849,-74.5205/us12/en" target="">
+            <a href="https://darksky.net/" target="">
               <div class="row">
                   <div id="weather-description"class="inline"></div>
                   <div class="inline">-</div>
@@ -93,29 +92,36 @@
         }
 
         window.onload = () => {
-            var xhr = new XMLHttpRequest();
-            // Request to weather api
-            xhr.open("GET", "https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/a8ee06a53ce08e3ae1668ca25de41b09/40.379570,-74.545660?units=us&exclude=minutely,hourly,daily,flags", true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onload = () => {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-                        let json = JSON.parse(xhr.responseText);
-                        console.log(json);
-                        document.getElementById("temp").innerHTML = Math.round(json.currently.temperature) + " F";
-                        document.getElementById("weather-description").innerHTML = json.currently.summary;
-                    } else {
-                        console.log('error msg: ' + xhr.status);
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position){
+                    var lat = position.coords.latitude;
+                    var lng = position.coords.longitude;
+
+                    var xhr = new XMLHttpRequest();
+                    // Request to weather api
+                    xhr.open("GET", "https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/a8ee06a53ce08e3ae1668ca25de41b09/"+lat+","+lng+"?units=us&exclude=minutely,hourly,daily,flags", true);
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhr.onload = () => {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                let json = JSON.parse(xhr.responseText);
+                                console.log(json);
+                                document.getElementById("temp").innerHTML = Math.round(json.currently.temperature) + " F";
+                                document.getElementById("weather-description").innerHTML = json.currently.summary;
+                            } else {
+                                console.log('error msg: ' + xhr.status);
+                            }
+                        }
                     }
-                }
-            }
-            xhr.send(null);
-            // Set up the clock
-            document.getElementById("clock").innerHTML = getTime();
-            // Set clock interval to tick clock
-            setInterval( () => {
-                document.getElementById("clock").innerHTML = getTime();
-            },100);
+                    xhr.send(null);
+                    // Set up the clock
+                    document.getElementById("clock").innerHTML = getTime();
+                    // Set clock interval to tick clock
+                    setInterval( () => {
+                        document.getElementById("clock").innerHTML = getTime();
+                    },100);
+                });
+            } 
         }
 
         document.addEventListener("keydown", event => {
