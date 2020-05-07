@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Startpage</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<link rel="icon" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="favicon.png">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" type="text/css" media="screen" href="style.css">
 </head>
-<script src="//instant.page/1.1.0" type="module" integrity="sha384-EwBObn5QAxP8f09iemwAJljc+sU+eUXeL9vSBw1eNmVarwhKk2F9vBEpaN9rsrtp"></script>
+<script src="//instant.page/1.1.0" type="module"
+    integrity="sha384-EwBObn5QAxP8f09iemwAJljc+sU+eUXeL9vSBw1eNmVarwhKk2F9vBEpaN9rsrtp"></script>
+
 <body>
     <div id="search">
-        <input id="search-field" type="text" name="search-field" onkeypress="return search(event)"/>
+        <input id="search-field" type="text" name="search-field" onkeypress="return search(event)" />
     </div>
     <div class="container">
         <div id="clock"></div>
-          <div class="weather-container">
+        <div class="weather-container">
             <a href="https://darksky.net/" target="">
-              <div class="row">
-                  <div id="weather-description"class="inline"></div>
-                  <div class="inline">-</div>
-                  <div id="temp" class="inline"></div>
-              </div>
+                <div class="row">
+                    <div id="weather-description" class="inline"></div>
+                    <div class="inline">-</div>
+                    <div id="temp" class="inline"></div>
+                </div>
             </a>
         </div>
         <div class="bookmark-container">
@@ -32,26 +35,27 @@
                 <div class="bookmark-inner-container">
                     <a class="bookmark" href="https://gmail.com" target="">Gmail</a>
                     <a class="bookmark" href="https://reddit.com" target="">Reddit</a>
-                    <a class="bookmark" href="https://www.ticktick.com" target="">TickTick</a>
-                    <a class="bookmark" href="https://github.com/mrswagbhinav" target="">GitHub</a>
+                    <a class="bookmark" href="spotify:user:spotify:playlist:37i9dQZF1DXcBWIGoYBM5M"
+                        target="">Spotify</a>
+                    <a class="bookmark" href="https://coronastats.co/" target="">COVID-19</a>
                 </div>
             </div>
             <div class="bookmark-set">
                 <div class="bookmark-title">Media</div>
                 <div class="bookmark-inner-container">
                     <a class="bookmark" href="https://youtube.com" target="">Youtube</a>
-                    <a class="bookmark" href="https://snahp.it" target="">Snahp</a>
-                    <a class="bookmark" href="http://www.vedmala.xyz:8096" target="">Emby</a>
-                    <a class="bookmark" href="https://www.123movies.gdn" target="">123Movies</a>
+                    <a class="bookmark" href="https://www.netflix.com/" target="">Netflix</a>
+                    <a class="bookmark" href="https://www.crunchyroll.com/" target="">Crunchy Roll</a>
+                    <a class="bookmark" href="http://app.emby.media/#!/home" target="">Emby</a>
                 </div>
             </div>
             <div class="bookmark-set">
-            <div class="bookmark-title">School</div>
+                <div class="bookmark-title">School</div>
                 <div class="bookmark-inner-container">
-                    <a class="bookmark" href="https://classroom.google.com" target="">Classroom</a>
-                    <a class="bookmark" href="https://drive.google.com" target="">Drive</a>
+                    <a class="bookmark" href="https://mail.google.com/mail/u/1/#inbox" target="">Gmail</a>
+                    <a class="bookmark" href="https://classroom.google.com/u/1/h" target="">Classroom</a>
+                    <a class="bookmark" href="https://drive.google.com/u/1/h" target="">Drive</a>
                     <a class="bookmark" href="https://parents.sbschools.org/genesis/parents" target="">Genesis</a>
-                    <a class="bookmark" href="https://www.khanacademy.org" target="">Khan Academy</a>
                 </div>
             </div>
         </div>
@@ -68,15 +72,15 @@
         // Get current time and format
         function getTime() {
             var dt = new Date();
-            dt.setTime(dt.getTime()+dt.getTimezoneOffset()*60*1000);
+            dt.setTime(dt.getTime() + dt.getTimezoneOffset() * 60 * 1000);
             var offset = -300;
-            var date = new Date(dt.getTime() + offset*60*1000),
+            var date = new Date(dt.getTime() + offset * 60 * 1000),
                 min = date.getMinutes(),
                 sec = date.getSeconds(),
                 hour = date.getHours();
 
             // 12 hour format
-            hour = (date.getHours()+1) % 12 || 12
+            hour = (date.getHours() + 1) % 12 || 12
 
             return "" +
                 (hour < 10 ? ("0" + hour) : hour) + ":" +
@@ -85,29 +89,33 @@
         }
 
         function weatherToggle() {
-          if(document.getElementById("temp").innerHTML.slice(-1) == H)
-            document.getElementById("temp").innerHTML = Math.round(json.currently.temperature) + " F";
-          else
-            document.getElementById("temp").innerHTML = Math.round(json.currently.windSpeed) + " MPH";
+            if (document.getElementById("temp").innerHTML.slice(-1) == H)
+                document.getElementById("temp").innerHTML = Math.round(json.currently.temperature) + " F";
+            else
+                document.getElementById("temp").innerHTML = Math.round(json.currently.windSpeed) + " MPH";
         }
 
         window.onload = () => {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position){
+                navigator.geolocation.getCurrentPosition(function (position) {
                     var lat = position.coords.latitude;
                     var lng = position.coords.longitude;
 
                     var xhr = new XMLHttpRequest();
                     // Request to weather api
-                    xhr.open("GET", "https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/a8ee06a53ce08e3ae1668ca25de41b09/"+lat+","+lng+"?units=us&exclude=minutely,hourly,daily,flags", true);
+                    xhr.open("GET",
+                        "https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/a8ee06a53ce08e3ae1668ca25de41b09/" +
+                        lat + "," + lng + "?units=us&exclude=minutely,hourly,daily,flags", true);
                     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                     xhr.onload = () => {
                         if (xhr.readyState === 4) {
                             if (xhr.status === 200) {
                                 let json = JSON.parse(xhr.responseText);
                                 console.log(json);
-                                document.getElementById("temp").innerHTML = Math.round(json.currently.temperature) + " F";
-                                document.getElementById("weather-description").innerHTML = json.currently.summary;
+                                document.getElementById("temp").innerHTML = Math.round(json.currently
+                                    .temperature) + " F";
+                                document.getElementById("weather-description").innerHTML = json
+                                    .currently.summary;
                             } else {
                                 console.log('error msg: ' + xhr.status);
                             }
@@ -117,18 +125,18 @@
                     // Set up the clock
                     document.getElementById("clock").innerHTML = getTime();
                     // Set clock interval to tick clock
-                    setInterval( () => {
+                    setInterval(() => {
                         document.getElementById("clock").innerHTML = getTime();
-                    },100);
+                    }, 100);
                 });
-            } 
+            }
         }
 
         document.addEventListener("keydown", event => {
-            if (event.keyCode == 32) {          // Spacebar code to open search
+            if (event.keyCode == 32) { // Spacebar code to open search
                 document.getElementById('search').style.display = 'flex';
                 document.getElementById('search-field').focus();
-            } else if (event.keyCode == 27) {   // Esc to close search
+            } else if (event.keyCode == 27) { // Esc to close search
                 document.getElementById('search-field').value = '';
                 document.getElementById('search-field').blur();
                 document.getElementById('search').style.display = 'none';
@@ -136,4 +144,5 @@
         });
     </script>
 </body>
+
 </html>
